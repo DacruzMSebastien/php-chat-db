@@ -1,3 +1,29 @@
+<?php
+session_start();
+
+try
+{
+    $bdd = new PDO('mysql:host=localhost;dbname=minichat;charset=utf8', 'root', 'root');
+}
+catch(Exception $e)
+{
+        die('Erreur : '.$e->getMessage());
+}
+
+
+// CONDITION 
+
+
+
+
+
+
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -19,7 +45,7 @@
         </p>
         <p>
         <label>Password
-          <input type="text" name="password" placeholder="Enter your password" maxlength="50" required><br/>
+          <input type="password" name="password" placeholder="Enter your password" maxlength="50" required><br/>
         </label>
         </p>
         <input type="submit" value="Log on" name="submit">

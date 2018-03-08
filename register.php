@@ -5,7 +5,6 @@ error_reporting(E_ALL);
 
 // J'intialise une session
 session_start();
-$_SESSION['login'] = $login;
 
 
 try
@@ -23,6 +22,7 @@ catch(Exception $e)
   // Si j'appuie sur sur Sign up ..
 if(isset($_POST['submit_register'])){
 
+
   // SANITIZE
   $options = array(
     'create_login'    	=> FILTER_SANITIZE_STRING,
@@ -35,36 +35,31 @@ if(isset($_POST['submit_register'])){
    if(!empty($_POST['create_login']) && !empty($_POST['create_password']) && !empty($_POST['confirm_password']) && !empty($_POST['email'])){
       $login = trim($result['create_login']);
       $pw = trim($result['create_password']);
-      $pass_hache = password_hash($pw, PASSWORD_DEFAULT);  // Je crypte le mot de passe
       $pw2 = trim($result['confirm_password']);
+      $pass_hache = password_hash($pw, PASSWORD_DEFAULT);  // Je crypte le mot de passe
       $email = trim($result['email']);
 
-      if(password_verify($pw2, $pass_hache)){
         // Je vérifie si les 2 mdp sont identiques
-      $req = $bdd->query('INSERT INTO user(login, password, email) VALUES("'.$login.'", "'.$pass_hache.'","'.$email.'" )'); // on envoie les valeurs des champs dans la bdd
+      if(password_verify($pw2, $pass_hache)){
+      $req = $bdd->query('INSERT INTO user(login, password, email) VALUES("'.$login.'", "'.$pass_hache.'","'.$email.'" )'); //  j'envoie les valeurs des champs dans la bdd
       } else {
           echo "Invalid password";
         }
 
 
+
+
+
+
+      // On redirige vers index.php si tout est ok
+        header("Location: index.php");
+
       }
     }
   }
-//}
 
 
 
-
-
-    /*------------------------ VERIF PASS ---------------------------
-   if (isset($_POST['create_password']) != isset($_POST['confirm_password'])) {
-             $error = 'Les 2 mots de passes sont différents.';
-          }*/
-
-
-
-
-//$sign_up = $_POST['sign_up'];
 
 // Vérif pseudo base de donnée, si existant -> choisir un autre
 // validation email

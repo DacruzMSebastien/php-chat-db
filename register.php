@@ -33,22 +33,22 @@ if(isset($_POST['submit_register'])){
 
   if(isset($_POST['create_login']) && isset($_POST['create_password']) && isset($_POST['confirm_password']) && isset($_POST['email'])){
    if(!empty($_POST['create_login']) && !empty($_POST['create_password']) && !empty($_POST['confirm_password']) && !empty($_POST['email'])){
-      $login = trim($result['create_login']);
-      $pw = trim($result['create_password']);
-      $pw2 = trim($result['confirm_password']);
+      $login = htmlspecialchars($result['create_login']);
+      $pw = htmlspecialchars($result['create_password']);
+      $pw2 = htmlspecialchars($result['confirm_password']);
       $pass_hache = password_hash($pw, PASSWORD_DEFAULT);  // Je crypte le mot de passe
-      $email = trim($result['email']);
+      $email = htmlspecialchars($result['email']);
 
         // Je vérifie si les 2 mdp sont identiques
       if(password_verify($pw2, $pass_hache)){
-      $req = $bdd->query('INSERT INTO user(login, password, email) VALUES("'.$login.'", "'.$pass_hache.'","'.$email.'" )'); //  j'envoie les valeurs des champs dans la bdd
+        $req = $bdd->query('INSERT INTO user(login, password, email) VALUES("'.$login.'", "'.$pass_hache.'","'.$email.'" )'); //  j'envoie les valeurs des champs dans la bdd
+        $_SESSION['create_login'] = $login;
+        $_SESSION['pass_hache'] = $pass_hache;
+        $_SESSION['email'] = $email;
+
       } else {
           echo "Invalid password";
         }
-
-
-
-
 
 
       // On redirige vers index.php si tout est ok

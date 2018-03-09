@@ -1,10 +1,8 @@
 <?php
 session_start();
-$_SESSION['create_login'] = $_POST['login'];
+ $_SESSION['create_login'] = $_POST['login'];
 $_SESSION['pass_hache'] = $_POST['password'];
-
-
-
+// $_POST['password'] = $pass_hache;
 
 try
 {
@@ -20,45 +18,29 @@ catch(Exception $e)
 if(isset($_POST['submit'])){
 
   // SANITIZE
-  $options = array(
-    'login'    	=> FILTER_SANITIZE_STRING,
-    'password' 	=> FILTER_SANITIZE_STRING);
-    $result = filter_input_array(INPUT_POST, $options);
+  // $options = array(
+  //   'login'    	=> FILTER_SANITIZE_STRING,
+  //   'password' 	=> FILTER_SANITIZE_STRING);
+  //   $result = filter_input_array(INPUT_POST, $options);
 
   if(isset($_POST['login']) && isset($_POST['password'])){
     if(!empty($_POST['login']) && !empty($_POST['password'])){
 
-// $connected = $bdd -> query('SELECT * FROM user WHERE login = "'.$login.'" AND pw = "'.$pw.'" AND  pw2 = "'.$pw2.'" AND email = "'.$email.'"  ');
+      $_POST['pass_hache'] = $pass;
 
-// Je vérifie avec une requête si les champs existent dans la base de donnée
-  $connect = $bdd->query('SELECT COUNT(*) FROM user WHERE login="'.$_SESSION['create_login'].'"')->fetch();
-
+// Je vérifie avec une requête si le champ login existent dans la base de donnée
+  $connect = $bdd->query('SELECT COUNT(*) FROM user WHERE login="'.$_SESSION['create_login'].'" ')->fetch();
   if ($connect['COUNT(*)'] == 1){
+    // echo $_SESSION['pass_hache'];
     header("Location: chat.php");
   } else {
-    echo "Idiot bête";
+    echo "Wrong login";
   }
 
-
-// AND password="'.$_SESSION['pass_hache'].'"
 
       }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>
 
